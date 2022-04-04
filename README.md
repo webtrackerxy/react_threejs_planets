@@ -3,7 +3,7 @@
 ### Install
 
 ```bash
-git
+git clone https://github.com/webtrackerxy/react_threejs_planets.git
 yarn
 ```
 
