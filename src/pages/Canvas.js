@@ -5,6 +5,9 @@ import earthmap1k from "../assets/earthmap1k.jpg";
 import sun2k from "../assets/sun2k.jpg";
 import mercury2k from "../assets/mercury2k.jpg";
 
+
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
 const  Canvas = (props) => {
 
   // State
@@ -28,6 +31,8 @@ const  Canvas = (props) => {
   
   // 3D View
   cameraPerspective = new THREE.PerspectiveCamera( 50,  aspect, 150, 1000 );
+  cameraPerspective.position.z = 2600;
+  cameraPerspective.lookAt(new THREE.Vector3(0, 0, 0));
 
    // 2D View
   cameraOrtho = new THREE.OrthographicCamera(  frustumSize * aspect / - 2, frustumSize * aspect / 2, frustumSize / 2, frustumSize / - 2, 150, 1000 );
@@ -40,12 +45,15 @@ const  Canvas = (props) => {
   renderer.setPixelRatio( window.devicePixelRatio );
   renderer.setSize( SCREEN_WIDTH, SCREEN_HEIGHT );
 
+  let cameraControl = new OrbitControls(cameraPerspective, renderer.domElement);
+
+
   useEffect(() => {
 
     if (canvasState.view == "2D") {
       activeCamera = cameraOrtho
     }else{ 
-      activeCamera = cameraPerspective
+      activeCamera = cameraPerspective   
     } 
 
     // Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune and then the possible Planet Nine.
@@ -127,15 +135,16 @@ const  Canvas = (props) => {
     scene.add( neptune );
 
     // Set the position 
-    sun.position.z = 1000;
-    venus.position.z = 2000;
-    mercury.position.z = 2050;
-    earth.position.z = 2100;
-    mars.position.z = 2200;
-    jupiter.position.z = 2509;
-    saturn.position.z = 2850;
-    uranus.position.z = 2900;
-    neptune.position.z = 2950;
+    let z = 500
+    sun.position.z = z;
+    venus.position.z = z;
+    mercury.position.z = z;
+    earth.position.z = z;
+    mars.position.z = z;
+    jupiter.position.z = z;
+    saturn.position.z = z;
+    uranus.position.z = z;
+    neptune.position.z = z;
 
     renderer.autoClear = false;
 
@@ -189,8 +198,6 @@ const  Canvas = (props) => {
 
       const r = Date.now() * 0.0005;
 
-      //cameraPerspective.position.y = 100* Math.sin(  r );
-
       // circulation motion
       venus.position.x = 300 * Math.cos( 0.1* r );
       venus.position.y = 300 * Math.sin( 0.1* r );
@@ -240,6 +247,7 @@ const  Canvas = (props) => {
     };
   }, [canvasState.view]);
 
+  
   const onClick2D = () =>{
 
     setCanvasState({
@@ -255,8 +263,10 @@ const  Canvas = (props) => {
       ...canvasState,
       view : "3D"
     });
-    
+
   }
+
+
 
   return (
     <div style={props.style}>
