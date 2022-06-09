@@ -15,7 +15,7 @@ yarn start
 
 Start a demo page at http://localhost:3000/
 
-### Test
+### Testing
 
 ```bash
 yarn test
